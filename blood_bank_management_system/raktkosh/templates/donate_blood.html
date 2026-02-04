@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load widget_tweaks %}
+{% load static %}
+<br><br><br><br>
+<div class="container">
+    <h4 class="text-center">Donate Blood</h4><br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_bloodgroup">Blood Group</label>
+            {{ donation_form.bloodgroup|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="id_unit">Unit (in ml)</label>
+            {{ donation_form.unit|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="id_disease">Disease (if any)</label>
+            {{ donation_form.disease|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="id_age">Age</label>
+            {{ donation_form.age|add_class:"form-control" }}
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="consent_checkbox" required>
+            <label class="form-check-label" for="consent_checkbox">
+                I consent for the blood test
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Donate</button>
+    </form>
+</div>
+<script>
+    // Disable age and bloodgroup fields on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        var ageField = document.getElementById('id_age');
+        var bloodgroupField = document.getElementById('id_bloodgroup');
+        
+        ageField.disabled = true;
+        bloodgroupField.disabled = true;
+    });
+</script>
+{% endblock %}

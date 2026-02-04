@@ -1,0 +1,187 @@
+\documentclass[a4paper,12pt]{article}  
+\usepackage[a4paper, margin=1in]{geometry}  % Adjust the margins to 1 inch for A4 size
+\usepackage{graphicx}  % Required for including images
+\usepackage{fancyhdr}  % Required for adding headers
+\usepackage{amsmath}   % Required for math symbols and environments
+\usepackage{enumitem}  % Customization for enumerate/itemize
+\usepackage{lipsum}
+\usepackage{hyperref}  % For clickable references/links
+\usepackage{setspace}  % For setting line spacing
+\usepackage{caption}   % For captioning tables and figures
+\usepackage{booktabs}  % For better table design
+\usepackage{float}     % For better control over figure placement
+
+
+\fancyhf{}
+\fancyhead[L]{\leftmark}  % Display section on the left of the header
+\fancyhead[R]{\thepage}   % Display page number on the right
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\LARGE \bfseries Cryptography in Cyber Security: Principles and Practices}\\[1.5cm] % Title
+    {\Large \textbf{Mr. P.S. Mann}}\\[1cm]  % Instructor Name
+    \vspace{1.5cm}
+    \includegraphics[width=0.3\textwidth]{GTU.png}\\[1.5cm] % Logo
+    {\LARGE School of Engineering and Technology}\\[0.5cm]
+    \large{SEM- I}
+    \vfill  % Fill the space vertically
+    {\small Submitted by: Pandey Saurav}\\ % Author name
+    {\small Enrollment No: 2024MECS29}\\
+    \vspace*{2cm}
+    \date{}  % No date
+\end{titlepage}
+
+\newpage
+
+% Content starts here
+\section*{Question 1: Substitution Techniques}
+
+\subsection*{Polyalphabetic Ciphers}
+Polyalphabetic ciphers were developed to overcome the weaknesses of monoalphabetic substitution ciphers by using multiple alphabets. This makes frequency analysis attacks more difficult since a single plaintext letter can be encrypted differently based on the key.
+
+One famous polyalphabetic cipher is the Vigenère cipher, which uses a keyword to shift the letters of the plaintext by different amounts. Each letter in the plaintext is shifted according to the corresponding letter in the keyword, making it harder to detect patterns.
+
+\textbf{Example:} Suppose the plaintext is ``HELLO'' and the keyword is ``KEY''. The letters of the keyword are repeated to match the length of the plaintext. Each letter of the plaintext is then shifted by the corresponding letter of the keyword.
+
+\begin{tabbing}
+\hspace{3cm} \= H \= E \= L \= L \= O \\
+\textbf{Plaintext:} \> H \> E \> L \> L \> O \\
+\textbf{Keyword:}  \> K \> E \> Y \> K \> E \\
+\textbf{Ciphertext:} \> R \> I \> J \> V \> S
+\end{tabbing}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{helloex.jpg}  % Replace 'helloex.jpg' with your image filename
+    \caption{This diagram shows how each letter is encrypted using the Vigenère cipher.}
+    \label{fig:vigenere_example}
+\end{figure}
+
+\textbf{Security:} The Vigenère cipher improves security by avoiding the simple, repetitive patterns found in monoalphabetic ciphers. However, it is still vulnerable to attacks like the Kasiski examination, which can break the cipher if the keyword is short or reused.
+
+
+
+
+
+
+\newpage  % Force a page break
+
+\subsection*{One-Time Pad}
+The One-Time Pad (OTP) is an encryption method that provides perfect secrecy when used correctly. It works by combining each character of the plaintext with a random key of the same length. This makes it theoretically unbreakable, as the ciphertext provides no information about the plaintext without the key.
+
+The encryption is performed by applying the XOR operation between the plaintext and the key. The same operation is used to decrypt the message, provided the key is known.
+
+\textbf{Example:} Consider the plaintext ``HELLO'' and a randomly generated key such as ``XMCKL''. Each letter of the plaintext is combined with the corresponding letter of the key using XOR, resulting in the ciphertext ``EQNVZ''.
+
+\begin{tabbing}
+\hspace{3cm} \= H \= E \= L \= L \= O \\
+\textbf{Plaintext:} \> H \> E \> L \> L \> O \\
+\textbf{Key:} \> X \> M \> C \> K \> L \\
+\textbf{Ciphertext:} \> E \> Q \> N \> V \> Z
+\end{tabbing}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Plaintext} & \textbf{Key} & \textbf{Ciphertext} \\ \hline
+H & X & E \\ \hline
+E & M & Q \\ \hline
+L & C & N \\ \hline
+L & K & V \\ \hline
+O & L & Z \\ \hline
+\end{tabular}
+\caption{Encryption using One-Time Pad}
+\label{table:otp_encryption}
+\end{table}
+
+\textbf{Security:} The OTP is proven to be unbreakable under two conditions:
+\begin{itemize}
+    \item The key must be truly random and as long as the message.
+    \item The key must only be used once and never reused.
+\end{itemize}
+
+\newpage
+\section*{Question 2: Hash Functions for User Authentication}
+
+\subsection*{MD4 (Message Digest Algorithm 4)}
+MD4, developed by Ronald Rivest in 1990, was one of the earliest cryptographic hash functions designed to produce a 128-bit hash value. Its purpose was to enable fast hashing for authentication and data integrity. The algorithm processes data in blocks, utilizing bitwise operations to compress the input into a fixed-size output.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{md4.jpg}  % Replace 'md4.jpg' with your image filename
+    \caption{MD4 Message Digest Algorithm Block Diagram}
+    \label{fig:md4_diagram}
+\end{figure}
+
+The hash computation consists of the following key steps:
+\begin{enumerate}
+    \item \textbf{Padding:} The input message is padded to ensure its length is a multiple of 512 bits.
+    \item \textbf{Message Digest Initialization:} The algorithm uses four 32-bit variables as the initial state (A, B, C, D). These variables are set to predefined constants.
+    \item \textbf{Block Processing:} The input message is divided into 512-bit blocks. Each block is processed in three rounds of operations, with different logical functions applied in each round.
+    \item \textbf{Final Output:} After processing all blocks, the final value of the four variables (A, B, C, D) is concatenated to form the 128-bit message digest.
+\end{enumerate}
+
+\textbf{Security Considerations:} Despite its initial widespread adoption due to its efficiency, MD4 was found to have significant weaknesses:
+\begin{itemize}
+    \item \textbf{Collision Vulnerabilities:} MD4 is highly vulnerable to collision attacks, where two distinct inputs produce the same hash value.
+    \item \textbf{Preimage Resistance:} MD4 also has weak preimage resistance, meaning it is possible to reverse-engineer the original input from the hash under certain conditions.
+    \item \textbf{Attacks:} Various attacks, such as the Dobbertin attack (1996), have demonstrated its lack of security. As a result, it is no longer considered secure for any cryptographic purposes.
+\end{itemize}
+
+
+\textbf{Applications:} MD4 was used in several early authentication systems, particularly in Microsoft's NTLM (NT LAN Manager) for password hashing in early versions of Windows. Due to MD4's weaknesses, NTLM has since been phased out in favor of stronger cryptographic protocols.
+
+\vspace{0.5cm}  % Adjust the space as needed (e.g., 1cm, 0.5cm, etc.)
+
+\textbf{Summary:} Although MD4 was a pioneering cryptographic hash function that paved the way for more secure algorithms, its vulnerabilities rendered it obsolete. Today, it serves as an important case study in the evolution of cryptographic security.
+
+
+
+
+\newpage  % Force a page break
+\subsection*{MD5 (Message Digest Algorithm 5)}
+MD5 is an improvement over MD4, developed by Ronald Rivest in 1992. It also generates a 128-bit hash value from input, but with enhanced security. However, like MD4, MD5 has been found vulnerable to collision attacks, limiting its use in cryptographic security.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{md5.jpg}  % Replace 'md5.jpg' with your image filename
+    \caption{MD5 Message Digest Algorithm Block Diagram}
+    \label{fig:md5_diagram}
+\end{figure}
+
+\textbf{Security Considerations:} Despite its improvements over MD4, MD5 also has significant weaknesses:
+\begin{itemize}
+    \item \textbf{Collision Vulnerabilities:} MD5 is vulnerable to collision attacks, though they are more difficult to exploit.
+    \item \textbf{Preimage Resistance:} MD5 has weak preimage resistance, allowing attackers to potentially reverse-engineer the input message.
+    \item \textbf{Attacks:} Several successful attacks have been demonstrated on MD5, and it is now considered insecure for cryptographic purposes.
+\end{itemize}
+
+The hash computation consists of the following key steps:
+\begin{enumerate}
+    \item \textbf{Padding:} Like MD4, the input message is padded to ensure its length is a multiple of 512 bits.
+    \item \textbf{Message Digest Initialization:} MD5 uses four 32-bit variables initialized to predefined constants.
+    \item \textbf{Block Processing:} The input message is divided into 512-bit blocks, and each block is processed in four rounds of operations involving bitwise shifts and logical functions.
+    \item \textbf{Final Output:} The final value of the variables is concatenated to form the 128-bit message digest.
+\end{enumerate}
+
+\textbf{Applications:} Despite its vulnerabilities, MD5 is still widely used in non-cryptographic applications, such as file checksums and verifying the integrity of data in communications.
+
+\vspace{0.5cm}  % Adjust the space as needed (e.g., 1cm, 0.5cm, etc.)
+
+\textbf{Summary:} Although MD5 was an improvement over MD4, it too has significant vulnerabilities that render it unsuitable for secure cryptographic applications today.
+
+\newpage
+\section*{References}
+\begin{enumerate}
+    \item William Stallings, \textit{Cryptography and Network Security: Principles and Practices}, 7th Edition.
+    \item Bruce Schneier, \textit{Applied Cryptography}, 2nd Edition.
+    \item Ronald Rivest, \textit{The MD4 Message Digest Algorithm}, 1990.
+    \item Ronald Rivest, \textit{The MD5 Message Digest Algorithm}, 1992.
+\end{enumerate}
+
+\end{document}

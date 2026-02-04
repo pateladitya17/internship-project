@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load widget_tweaks %}
+{% load static %}
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <h4 class="text-center">Make Blood Request</h4><br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_patient_name">Patient Name</label>
+            {{ request_form.patient_name|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="id_patient_age">Patient Age</label>
+            {{ request_form.patient_age|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="id_reason">Reason</label>
+            {{ request_form.reason|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="id_bloodgroup">Blood Group</label>
+            {{ request_form.bloodgroup|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="id_unit">Unit</label>
+            {{ request_form.unit|add_class:"form-control" }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endblock %}

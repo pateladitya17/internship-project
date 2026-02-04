@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load widget_tweaks %}
+{% load static %}
+{% load active_link_tags %}
+<div class="container" style="padding: 100px;">
+    <div class="row" style="padding: 5px;">
+        {% for category in categories %}
+        <div class="col-sm-3" style="padding: 5px;">
+            <div class="card bg-light" style="height: 150px;">
+                <div class="card-body">
+                    <div class="blood">
+                        <h2>{{ category.name }} <i class="fas fa-tint"></i></h2>
+                    </div><br><br>
+                    <div>
+                        {% for stock in stocks %}
+                            {% if stock.bloodgroup == category.name %}
+                                {{ stock.unit }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Other parts of your template -->
+    <div class="row">
+        <div class="col-sm-3" style="padding: 5px;">
+            <div class="card bg-light" style="height: 150px;">
+                <div class="card-body">
+                    <div class="blood">
+                        <i class="fas fa-users"></i>
+                    </div><br>
+                    <div>
+                        Total Users: {{ total_donors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3" style="padding: 5px;">
+            <div class="card bg-light" style="height: 150px;">
+                <div class="card-body">
+                    <div class="blood">
+                        <i class="fas fa-tint"></i>
+                    </div><br>
+                    <div>
+                        Total Blood Units: {{ total_blood_units }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3" style="padding: 5px;">
+            <div class="card bg-light" style="height: 150px;">
+                <div class="card-body">
+                    <div class="blood">
+                        <i class="fas fa-spinner"></i>
+                    </div><br>
+                    <div>
+                        Total Requests: {{ total_requests }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3" style="padding: 5px;">
+            <div class="card bg-light" style="height: 150px;">
+                <div class="card-body">
+                    <div class="blood">
+                        <i class="far fa-check-circle"></i>
+                    </div><br>
+                    <div>
+                        Total Approved Requests: {{ total_approved_requests }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    
+{% endblock %}
