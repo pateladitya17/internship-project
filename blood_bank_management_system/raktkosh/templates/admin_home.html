@@ -7,12 +7,12 @@
     <div class="row" style="padding: 5px;">
         {% for category in categories %}
         <div class="col-sm-3" style="padding: 5px;">
-            <div class="card bg-light" style="height: 150px;">
+            <div class="card bg-light" style="height: 150px; overflow:auto; scrollbar-width: none;">
                 <div class="card-body">
                     <div class="blood">
-                        <h2>{{ category.name }} <i class="fas fa-tint"></i></h2>
+                        <h2 >{{ category.name }} <i style="color: rgb(253, 8, 8);" class="fas fa-tint"></i></h2>
                     </div><br>
-                    <div>
+                    <div style="color: rgb(0,0,0);">
                         {% for stock in stocks %}
                             {% if stock.bloodgroup == category.name %}
                                 {{ stock.unit }}
@@ -27,10 +27,12 @@
     <!-- Other parts of your template -->
     <div class="row">
         <div class="col-sm-3" style="padding: 5px;">
-            <div class="card bg-light" style="height: 150px;">
+            <div class="card bg-light" style="height: 150px; overflow:auto; scrollbar-width: none;">
                 <div class="card-body">
                     <div class="blood">
-                        <i class="fas fa-users"></i>
+                        <h4>
+                            <i style="color: #1977cc;" class="fas fa-users"></i>
+                        </h4>
                     </div><br>
                     <div>
                         Users: {{ total_donors }}
@@ -39,10 +41,12 @@
             </div>
         </div>
         <div class="col-sm-3" style="padding: 5px;">
-            <div class="card bg-light" style="height: 150px;">
+            <div class="card bg-light" style="height: 150px; overflow:auto; scrollbar-width: none;">
                 <div class="card-body">
                     <div class="blood">
-                        <i class="fas fa-tint"></i>
+                        <h4>
+                            <i style="color: rgb(253, 8, 8);" class="fas fa-tint"></i>
+                        </h4>
                     </div><br>
                     <div>
                         Blood Units: {{ total_blood_units }}
@@ -51,10 +55,12 @@
             </div>
         </div>
         <div class="col-sm-3" style="padding: 5px;">
-            <div class="card bg-light" style="height: 150px;">
+            <div class="card bg-light" style="height: 150px; overflow:auto; scrollbar-width: none;">
                 <div class="card-body">
                     <div class="blood">
-                        <i class="fas fa-spinner"></i>
+                        <h4>
+                            <i style="color: rgb(253, 196, 8);" class="fas fa-spinner"></i>
+                        </h4>
                     </div><br>
                     <div>
                         Requests: {{ total_requests }}
@@ -63,12 +69,14 @@
             </div>
         </div>
         <div class="col-sm-3" style="padding: 5px;">
-            <div class="card bg-light" style="height: 150px;">
+            <div class="card bg-light" style="height: 150px; overflow:auto; scrollbar-width: none;">
                 <div class="card-body">
                     <div class="blood">
-                        <i class="far fa-check-circle"></i>
+                        <h4>
+                            <i style="color: rgb(10, 187, 25);"class="far fa-check-circle"></i>
+                        </h4>
                     </div><br>
-                    <div>
+                    <div style="margin-bottom: 5px;">
                         Approved Requests: {{ total_approved_requests }}
                     </div>
                 </div>
