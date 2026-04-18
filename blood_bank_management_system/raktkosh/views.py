@@ -59,51 +59,89 @@ def Gallery(request):
 
 def Login_User(request):
     if request.method == "POST":
-        u = request.POST['uname']
-        p = request.POST['pwd']
+        u = request.POST.get('uname', '').strip()
+        p = request.POST.get('pwd', '')
+        if not u or not p:
+            messages.error(request, "Please enter both username and password.")
+            return render(request, 'login.html')
         user = authenticate(username=u, password=p)
-        sign = ""
-        if not user.is_staff and user:
-            login(request, user)
-            messages.success(request, "Logged in Successfully")
-            return redirect('home')
-        else:
-            messages.success(request, "Invalid user")
+        if user is None:
+            messages.error(request, "Invalid username or password. Please try again.")
+            return render(request, 'login.html')
+        if user.is_staff:
+            messages.error(request, "Admin accounts cannot log in here. Please use the Admin Login page.")
+            return render(request, 'login.html')
+        login(request, user)
+        messages.success(request, "Welcome back! You have logged in successfully.")
+        return redirect('home')
     return render(request, 'login.html')
 
 def admin_login(request):
     if request.method == "POST":
-        u = request.POST['uname']
-        p = request.POST['pwd']
+        u = request.POST.get('uname', '').strip()
+        p = request.POST.get('pwd', '')
+        if not u or not p:
+            messages.error(request, "Please enter both username and password.")
+            return render(request, 'admin_login.html')
         user = authenticate(username=u, password=p)
-        sign = ""
-        if user.is_staff:
-            login(request, user)
-            messages.success(request, "Logged in Successfully")
-            return redirect('admin_home')
-        else:
-            messages.success(request, "Invalid user")
+        if user is None:
+            messages.error(request, "Invalid username or password. Please try again.")
+            return render(request, 'admin_login.html')
+        if not user.is_staff:
+            messages.error(request, "You do not have admin privileges. Please use the User Login page.")
+            return render(request, 'admin_login.html')
+        login(request, user)
+        messages.success(request, "Welcome back, Admin! You have logged in successfully.")
+        return redirect('admin_home')
     return render(request, 'admin_login.html')
 
 def Signup_User(request):
     cat = Category.objects.all()
     if request.method == 'POST':
-        f = request.POST['fname']
-        l = request.POST['lname']
-        u = request.POST['uname']
-        e = request.POST['email']
-        p = request.POST['pwd']
-        d = request.POST['dob']
-        con = request.POST['contact']
-        add = request.POST['add']
-        group = request.POST['group']
-        im = request.FILES['image']
-        cat = Category.objects.get(id=group)
-        user = User.objects.create_user(email=e, username=u, password=p, first_name=f,last_name=l)
-        UserProfile.objects.create(user=user,contact=con,address=add,image=im,dob=d, blood_group=cat)
-        messages.success(request, "Registration Successful")
-        return redirect('login')
-    return render(request,'register.html', {'cat':cat})
+        f = request.POST.get('fname', '').strip()
+        l = request.POST.get('lname', '').strip()
+        u = request.POST.get('uname', '').strip()
+        e = request.POST.get('email', '').strip()
+        p = request.POST.get('pwd', '')
+        d = request.POST.get('dob', '')
+        con = request.POST.get('contact', '').strip()
+        add = request.POST.get('add', '').strip()
+        group = request.POST.get('group', '')
+
+        # Validate required fields
+        if not all([f, l, u, e, p, d, con, add, group]):
+            messages.error(request, "All fields are required. Please fill out every field.")
+            return render(request, 'register.html', {'cat': cat})
+
+        # Check for duplicate username
+        if User.objects.filter(username=u).exists():
+            messages.error(request, f'The username "{u}" is already taken. Please choose a different one.')
+            return render(request, 'register.html', {'cat': cat})
+
+        # Check for duplicate email
+        if User.objects.filter(email=e).exists():
+            messages.error(request, f'An account with email "{e}" already exists.')
+            return render(request, 'register.html', {'cat': cat})
+
+        # Validate image
+        if 'image' not in request.FILES:
+            messages.error(request, "Please upload a profile image.")
+            return render(request, 'register.html', {'cat': cat})
+
+        try:
+            im = request.FILES['image']
+            blood_cat = Category.objects.get(id=group)
+            user = User.objects.create_user(email=e, username=u, password=p, first_name=f, last_name=l)
+            UserProfile.objects.create(user=user, contact=con, address=add, image=im, dob=d, blood_group=blood_cat)
+            messages.success(request, "Registration successful! You can now log in with your credentials.")
+            return redirect('login')
+        except Category.DoesNotExist:
+            messages.error(request, "Invalid blood group selected. Please choose a valid blood group.")
+            return render(request, 'register.html', {'cat': cat})
+        except Exception as e:
+            messages.error(request, f"Registration failed: {str(e)}. Please try again.")
+            return render(request, 'register.html', {'cat': cat})
+    return render(request, 'register.html', {'cat': cat})
 
 def Logout(request):
     logout(request)
@@ -111,19 +149,27 @@ def Logout(request):
 
 def Change_Password(request):
     user = User.objects.get(username=request.user.username)
-    if request.method=="POST":
-        n = request.POST['pwd1']
-        c = request.POST['pwd2']
-        o = request.POST['pwd3']
-        if c == n:
-            u = User.objects.get(username__exact=request.user.username)
-            u.set_password(n)
-            u.save()
-            messages.success(request, "Password changed successfully")
-        else:
-            messages.success(request, "New password and confirm password are not same.")
+    if request.method == "POST":
+        n = request.POST.get('pwd1', '')
+        c = request.POST.get('pwd2', '')
+        o = request.POST.get('pwd3', '')
+        if not all([n, c, o]):
+            messages.error(request, "All password fields are required.")
+            return render(request, 'change_password.html')
+        if not user.check_password(o):
+            messages.error(request, "Your current password is incorrect. Please try again.")
+            return render(request, 'change_password.html')
+        if c != n:
+            messages.error(request, "New password and confirm password do not match.")
+            return render(request, 'change_password.html')
+        if len(n) < 6:
+            messages.error(request, "Password must be at least 6 characters long.")
+            return render(request, 'change_password.html')
+        user.set_password(n)
+        user.save()
+        messages.success(request, "Password changed successfully! Please log in with your new password.")
         return redirect('home')
-    return render(request,'change_password.html')
+    return render(request, 'change_password.html')
 
 @login_required(login_url='admin_login')
 def home_view(request):
