@@ -89,6 +89,7 @@ h6 {
 }
 
 a {
+  color: var(--primary-light) !important;
   transition: var(--transition);
 }
 
@@ -1483,4 +1484,16 @@ iframe {
     box-shadow: none !important;
     border: 1px solid #ddd !important;
   }
+}
+
+
+/* Signup link red color */
+.login-wrapper .signup-link {
+  color: #c0392b !important;
+  font-weight: 600 !important;
+}
+
+.login-wrapper .signup-link:hover {
+  color: #e74c3c !important;
+  text-decoration: underline !important;
 }
