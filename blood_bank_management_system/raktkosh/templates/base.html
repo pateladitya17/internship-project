@@ -104,7 +104,7 @@
           <li><a class="{% active_link 'view_user' %}" href="{% url 'view_user' %}">Users</a></li>
           <li><a class="{% active_link 'history' %}" href="{% url 'history' %}">history</a></li>
 
-          <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="#"><span style="padding-left:9px;">Services</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="{% url 'request_blood' %}">Request for Blood</a></li>
               <li><a href="/donator_blood">Donate for Blood</a></li>
@@ -114,7 +114,7 @@
 
           <li class="dropdown">
             
-            <a href="#" class="appointment-btn scrollto" style="color: #fff;"><span class="d-none d-md-inline">Welcome,</span> {{request.user.username}} <i class="bi bi-chevron-down"></i></a>
+            <a href="#" class="appointment-btn scrollto" style="color: #fff;"><span class="d-none d-md-inline" style="padding-left:9px;">Welcome,</span> {{request.user.username}} <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="{% url 'change_password' %}">Change Password</a></li>
               <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -139,7 +139,7 @@
             </ul>
           </li>
 
-          <li class="dropdown"><a href="#"><span>Hello,{{request.user.username}}</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="#"><span style="padding-left:9px;">Hello,{{request.user.username}}</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               
               <li><a href="{% url 'change_password' %}">Change Password</a></li>
@@ -166,7 +166,7 @@
         <ul>
         <li class="dropdown">
               
-          <a href="#" class="appointment-btn scrollto" style="color: #fff;"><span class="d-none d-md-inline">Login</span> <i class="bi bi-chevron-down"></i></a>
+          <a href="#" class="appointment-btn scrollto" style="color: #fff;"><span class="d-none d-md-inline" style="padding-left:9px; color: #fff;">Login</span> <i class="bi bi-chevron-down"></i></a>
           <ul>
             <li><a href="{% url 'admin_login' %}">Admin Login</a></li>
             <li><a href="{% url 'login' %}">User Login</a></li>

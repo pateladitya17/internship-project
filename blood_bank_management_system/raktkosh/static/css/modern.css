@@ -89,7 +89,7 @@ h6 {
 }
 
 a {
-  color: var(--primary-light) !important;
+  color: var(--white) !important;
   transition: var(--transition);
 }
 
@@ -399,7 +399,7 @@ body>* {
 /* Appointment/Login button in nav */
 .appointment-btn {
   background: var(--grad-topbar) !important;
-  border-radius: var(--radius-full) !important;
+  border-radius: var(--radius-md) !important;
   padding: 9px 22px !important;
   font-size: 13px !important;
   font-weight: 600 !important;
@@ -977,7 +977,7 @@ hr {
 }
 
 .gallery .gallery-item::after {
-  content: '🔍';
+  content: ' ';
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, rgba(192, 57, 43, 0.7), rgba(26, 38, 53, 0.7));
