@@ -89,7 +89,6 @@ h6 {
 }
 
 a {
-  color: var(--white) !important;
   transition: var(--transition);
 }
 
